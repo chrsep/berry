@@ -80,6 +80,7 @@ export async function makeScriptEnv({project, binFolder, lifecycleScript}: {proj
   // spawned by Yarn (we thus ensure that they always use the right version)
   const execPath = npath.toPortablePath(process.execPath);
   await xfs.linkPromise(execPath, ppath.join(binFolder, ppath.basename(execPath)));
+  await xfs.chmodPromise(execPath, 0o755);
 
   if (YarnVersion !== null) {
     await makePathWrapper(binFolder, `run` as Filename, process.execPath, [process.argv[1], `run`]);
